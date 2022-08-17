@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup as BS
 
 
 options = webdriver.ChromeOptions()
-options.headless = True
+# options.headless = True
 driver = webdriver.Chrome(options=options)
 driver.get("https://bid.aaajapan.com/aj")
 
@@ -15,10 +15,15 @@ for c in pickle.load(open("./session", "rb")):
 
 driver.refresh()
 
-item = driver.find_element("xpath", '/html/body/font/nobr/table/tbody/tr[2]/td/form/table/tbody/tr/td[2]/table/tbody/tr/td[1]/div/select/option[3]')
-item.click()
-item = driver.find_element("xpath", '//*[@id="poisk"]/table/tbody/tr/td[2]/table/tbody/tr/td[2]/div/select/option[42]')
-item.click()
+brand = driver.find_element("xpath", '/html/body/font/nobr/table/tbody/tr[2]/td/form/table/tbody/tr/td[2]/table/tbody/tr/td[1]/div/select/option[3]')
+brand.click()
+
+models = driver.find_elements("xpath", '//*[@id="poisk"]/table/tbody/tr/td[2]/table/tbody/tr/td[2]/div/select/option')
+for i in models:
+    if "LEAF" in i.text:
+        model = i
+model.click()
+
 item = driver.find_element("xpath", '/html/body/font/nobr/table/tbody/tr[2]/td/form/table/tbody/tr/td[3]/input[1]')
 item.click()
 
