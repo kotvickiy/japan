@@ -33,21 +33,41 @@ time.sleep(1)
 
 html = driver.page_source
 
-
-with open("index.html", "w", encoding="utf-8") as file:
+with open("index0.html", "w", encoding="utf-8") as file:
     file.write(html)
 
+page_two = driver.find_element("xpath", '//*[@id="aj_out_poisk"]/div/table[1]/tbody/tr/td[2]/table/tbody/tr/td[2]/a')
+page_two.click()
+
+time.sleep(1)
+
+html_two = driver.page_source
+
+with open("index1.html", "w", encoding="utf-8") as file:
+    file.write(html_two)
 
 driver.close()
 
 
-with open("./index.html", encoding="utf-8") as file:
-    html_read = file.read()
+for i in range(2):
+    with open(f"./index{i}.html", encoding="utf-8") as file:
+        html_read = file.read()
 
-soup = BS(html_read, "lxml")
+    soup = BS(html_read, "lxml")
 
-pattern = r'aj_light|aj_dark'
+    pattern = r'aj_light|aj_dark'
 
-trs = soup.find("table", class_="t_main").find("tbody").find_all("tr", class_=re.compile(pattern=pattern))
+    trs = soup.find("table", class_="t_main").find("tbody").find_all("tr", class_=re.compile(pattern=pattern))
+    # print(len(trs))
+    for tr in trs:
+        tds = tr.find_all("td")
+        if "AZE0" in tds[5].text:
+            if "продан" in tds[10].text:
+                continue
+            print()
+            print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+            print(tr.text)
+            print("-------------------------------------------------------------------------------------------------------------------------------------------------")
+            print()
 
-print(len(trs))
+
