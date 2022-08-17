@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import time
 import pickle
+import re
 from selenium import webdriver
 from bs4 import BeautifulSoup as BS
 
@@ -45,6 +46,8 @@ with open("./index.html", encoding="utf-8") as file:
 
 soup = BS(html_read, "lxml")
 
-trs_light = soup.find("table", class_="t_main").find("tbody").find_all("tr", class_="aj_light")
-trs_dark = soup.find("table", class_="t_main").find("tbody").find_all("tr", class_="aj_dark")
-print(len(trs_light), len(trs_dark))
+pattern = r'aj_light|aj_dark'
+
+trs = soup.find("table", class_="t_main").find("tbody").find_all("tr", class_=re.compile(pattern=pattern))
+
+print(len(trs))
