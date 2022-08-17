@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup as BS
 
 
 options = webdriver.ChromeOptions()
-# options.headless = True
+options.headless = True
 driver = webdriver.Chrome(options=options)
 driver.get("https://bid.aaajapan.com/aj")
 
